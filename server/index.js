@@ -5,6 +5,7 @@ const dotenv = require("dotenv");
 const mongoose = require("mongoose");
 const AuthRoute = require("./routes/AuthRoute");
 const UserRoute = require("./routes/UserRoute");
+const TeamRoute = require("./routes/TeamRoute");
 const app = express();
 
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
@@ -25,3 +26,4 @@ mongoose
 
 app.use("/auth", AuthRoute);
 app.use("/user", UserRoute);
+app.use("/team", TeamRoute);

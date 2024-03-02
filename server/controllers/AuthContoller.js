@@ -23,7 +23,7 @@ module.exports.register = async (req, res) => {
         expiresIn: "1h",
       }
     );
-    res.status(201).json({ result: "success", token });
+    res.status(201).json({ result: "success", user, token });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -51,7 +51,7 @@ module.exports.login = async (req, res) => {
           process.env.JWT_SECRET,
           { expiresIn: "1h" }
         );
-        res.status(200).json({ result: "success", token });
+        res.status(200).json({ result: "success", existingUser, token });
       }
     }
   } catch (error) {
