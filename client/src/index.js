@@ -4,6 +4,7 @@ import { Provider } from "react-redux";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import store from "./store/ReduxStore";
 import App from "./App";
+import "./index.css";
 
 // Find the element you want to render your React app into
 const container = document.getElementById("root");

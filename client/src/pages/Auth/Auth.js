@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import "./Auth.css";
 import { logIn, signUp } from "../../actions/AuthActions.js";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import logo from "../../assets/logo.png";
 
 const Auth = () => {
   const initialState = {
@@ -18,14 +18,12 @@ const Auth = () => {
 
   const [data, setData] = useState(initialState);
 
-  //const [confirmPass, setConfirmPass] = useState(true);
-
-  // const dispatch = useDispatch()
+  const [confirmPass, setConfirmPass] = useState(true);
 
   // Reset Form
   const resetForm = () => {
     setData(initialState);
-    //setConfirmPass(confirmPass);
+    setConfirmPass(confirmPass);
   };
 
   // handle Change in input
@@ -35,85 +33,54 @@ const Auth = () => {
 
   // Form Submission
   const handleSubmit = (e) => {
-    //setConfirmPass(true);
+    setConfirmPass(true);
     e.preventDefault();
     if (isSignUp) {
-      //data.password === data.confirmpass
-      //?
-      dispatch(signUp(data, navigate));
-      // : setConfirmPass(false);
+      data.password === data.confirmpass
+        ? dispatch(signUp(data, navigate))
+        : setConfirmPass(false);
     } else {
       dispatch(logIn(data, navigate));
     }
   };
 
   return (
-    <div className="Auth">
-      {/* left side */}
-
-      <div className="a-left">
-        <div className="Webname">
-          <h1>ZKC Media</h1>
-          <h6>Explore the ideas throughout the world</h6>
-        </div>
-      </div>
-
-      {/* right form side */}
-
-      <div className="a-right">
-        <form className="infoForm authForm" onSubmit={handleSubmit}>
-          <h3>{isSignUp ? "Register" : "Login"}</h3>
+    <div className="h-screen flex bg-primary justify-center items-center sm:space-x-36 flex-wrap">
+      <div className="p-2  rounded-xl flex justify-center items-center">
+        <form onSubmit={handleSubmit} className="min-w-72">
+          <h3 className="text-6xl bebas-neue-regular text-white mb-5">
+            {isSignUp ? "Register" : "Login"}
+          </h3>
           {isSignUp && (
-            <div>
+            <div className="flex flex-col space-y-2">
               <input
                 required
                 type="text"
                 placeholder="Name"
-                className="infoInput"
                 name="name"
                 value={data.name}
-                onChange={handleChange}
-              />
-              <input
-                required
-                type="text"
-                placeholder="Email"
-                className="infoInput"
-                name="email"
-                value={data.email}
+                className="py-1 px-2 rounded-md focus:outline-none bg-[#d5e3eb] placeholder:text-darkPrimary text-darkPrimary text-xl"
                 onChange={handleChange}
               />
 
               <input
                 required
                 type="text"
-                className="infoInput"
                 placeholder="Country"
                 name="country"
                 value={data.country}
+                className="py-1 px-2 rounded-md focus:outline-none bg-[#d5e3eb] placeholder:text-darkPrimary text-darkPrimary text-xl"
                 onChange={handleChange}
               />
             </div>
           )}
 
-          {/* <div>
+          <div className="flex flex-col space-y-2">
             <input
-              required
-              type="text"
-              placeholder="Username"
-              className="infoInput"
-              name="username"
-              value={data.username}
-              onChange={handleChange}
-            />
-          </div> */}
-
-          <div>
-            <input
+              className="mt-2 py-1 px-2 rounded-md focus:outline-none bg-[#d5e3eb] placeholder:text-darkPrimary text-darkPrimary text-xl"
               required
               type="text"
               placeholder="Email"
-              className="infoInput"
               name="email"
               value={data.email}
               onChange={handleChange}
@@ -121,23 +88,23 @@ const Auth = () => {
             <input
               required
               type="password"
-              className="infoInput"
               placeholder="Password"
               name="password"
               value={data.password}
+              className="py-1 px-2 rounded-md focus:outline-none bg-[#d5e3eb] placeholder:text-darkPrimary text-darkPrimary text-xl"
               onChange={handleChange}
             />
 
-            {/* {isSignUp && (
+            {isSignUp && (
               <input
                 required
                 type="password"
-                className="infoInput"
                 name="confirmpass"
                 placeholder="Confirm Password"
+                className="py-1 px-2 rounded-md focus:outline-none bg-[#d5e3eb] placeholder:text-darkPrimary text-darkPrimary text-xl"
                 onChange={handleChange}
               />
-            )} */}
+            )}
           </div>
 
           <span
@@ -146,36 +113,35 @@ const Auth = () => {
               fontSize: "12px",
               alignSelf: "flex-end",
               marginRight: "5px",
-              //display: confirmPass ? "none" : "block",
+              display: confirmPass ? "none" : "block",
             }}
           >
             *Confirm password is not same
           </span>
-          <div>
+          <div className="flex flex-col space-y-">
             <span
-              style={{
-                fontSize: "12px",
-                cursor: "pointer",
-                textDecoration: "underline",
-              }}
+              className="text-sm cursor-pointer underline text-white text-end mb-2 mt-1"
               onClick={() => {
                 resetForm();
                 setIsSignUp((prev) => !prev);
               }}
             >
               {isSignUp
-                ? "Already have an account Login"
+                ? "Already have an account Log in"
                 : "Don't have an account Sign up"}
             </span>
             <button
-              className="button infoButton"
+              className="p-2 bg-brandRed text-white rounded-md"
               type="Submit"
               disabled={loading}
             >
-              {loading ? "Loading..." : isSignUp ? "SignUp" : "Login"}
+              {loading ? "Loading..." : isSignUp ? "Sign Up" : "Log In"}
             </button>
           </div>
         </form>
+      </div>
+      <div>
+        <img src={logo} alt="" />
       </div>
     </div>
   );

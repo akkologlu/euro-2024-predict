@@ -33,25 +33,22 @@ module.exports.login = async (req, res) => {
   const { email, password } = req.body;
 
   try {
-    const existingUser = await UserModel.findOne({ email });
+    const user = await UserModel.findOne({ email });
 
-    if (!existingUser) {
+    if (!user) {
       return res.status(404).json({ message: "User does not exist" });
     } else {
-      const isPasswordCorrect = await bcrypt.compare(
-        password,
-        existingUser.password
-      );
+      const isPasswordCorrect = await bcrypt.compare(password, user.password);
 
       if (!isPasswordCorrect) {
         return res.status(400).json({ message: "Invalid credentials" });
       } else {
         const token = jwt.sign(
-          { email: existingUser.email, id: existingUser._id },
+          { email: user.email, id: user._id },
           process.env.JWT_SECRET,
           { expiresIn: "1h" }
         );
-        res.status(200).json({ result: "success", existingUser, token });
+        res.status(200).json({ result: "success", user, token });
       }
     }
   } catch (error) {
